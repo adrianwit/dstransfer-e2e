@@ -1,0 +1,14 @@
+[
+  {
+    "Table": "dummy",
+    "Value": {
+      "id": "$dummyId",
+      "name": "Name 1",
+      "type_id": 1
+    },
+    "AutoGenerate": {
+      "dummyId": "uuid.next"
+    },
+    "Key": "${tagId}_dummy"
+  }
+]

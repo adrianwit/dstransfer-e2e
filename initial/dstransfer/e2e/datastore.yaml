@@ -1,0 +1,55 @@
+pipeline:
+  create-db:
+    db1:
+      action: dsunit:init
+      datastore: db1
+      recreate: true
+      config:
+        driverName: aerospike
+        descriptor: tcp([host]:3000)/[namespace]
+        parameters:
+          dbname: db1
+          namespace: test
+          host: 127.0.0.1
+          port: 3000
+          dateFormat: yyyy-MM-dd hh:mm:ss
+    db2:
+      action: dsunit:init
+      datastore: db2
+      config:
+        driverName: bigquery
+        credentials: $bqCredentials
+        parameters:
+          datasetId: db2
+      recreate: true
+      scripts:
+      - URL: datastore/db2/schema.sql
+    db3:
+      action: dsunit:init
+      datastore: db3
+      recreate: true
+      config:
+        driverName: mysql
+        descriptor: '[username]:[password]@tcp(127.0.0.1:3306)/[dbname]?parseTime=true'
+        credentials: $mysqlCredentials
+      admin:
+        datastore: mysql
+        config:
+          driverName: mysql
+          descriptor: '[username]:[password]@tcp(127.0.0.1:3306)/[dbname]?parseTime=true'
+          credentials: $mysqlCredentials
+      scripts:
+      - URL: datastore/db3/schema.sql
+  prepare:
+    db1:
+      action: dsunit:prepare
+      datastore: db1
+      URL: datastore/db1/dictionary
+    db2:
+      action: dsunit:prepare
+      datastore: db2
+      URL: datastore/db2/dictionary
+    db3:
+      action: dsunit:prepare
+      datastore: db3
+      URL: datastore/db3/dictionary

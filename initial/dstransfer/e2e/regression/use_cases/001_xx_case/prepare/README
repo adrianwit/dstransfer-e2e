@@ -1,0 +1,2 @@
+Create a folder for each datastore with JSON or CSV data files, filename refers to data store table.
+To remove data from table place first empty record in the file, followed by actual data 

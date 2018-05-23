@@ -16,6 +16,7 @@ pipeline:
         version: latest
       aerospike-ip:
         action: docker:inspect
+        target: $target
         name: endly_db1
         post:
         - dbIP = $Info[0].NetworkSettings.IPAddress
@@ -27,6 +28,7 @@ pipeline:
         credentials: $mysqlCredentials
       mysql-ip:
         action: docker:inspect
+        target: $target
         name: endly_db3
         post:
         - dbIP = $Info[0].NetworkSettings.IPAddress

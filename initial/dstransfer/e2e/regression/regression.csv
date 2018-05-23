@@ -1,18 +1,21 @@
-Workflow,,,Name,Description,Tasks,,,Init,,,,
-,,,regression,$app app regresion test,%Tasks,,, @var/init,,,,
-[]Tasks,,,Name,Description,Actions,,,,,,,
-,,,prepare,prepare data for test use cases,%Prepare,,,,,,,
-[]Prepare,,Service,Action,Description,Request,,,,,,,
-,,workflow,run,init test data,@req/data,,,,,,,
-[]Tasks,,,Name,Description,Actions,,,,,,,
-,,,test,Defines test requests,%Test,,,,,,,
-[]Test{1..002},Subpath,Service,Action,Description,Request,Skip,When,Init,TagDescription,/Data.db1.[]setup,/Data.db2.[]setup,/Data.db3.[]setup
-,use_cases/${index}*,,nop,skip this group if skip.txt is present,{},$HasResource(${subPath}/skip.txt):true,, @var/test_init,@use_case.txt,,,
-,use_cases/${index}*,,nop,push test db1 data,{},,$HasResource(${subPath}/db1_data.json):true,,,@db1_data,,
-,use_cases/${index}*,,nop,push test db2 data,{},,$HasResource(${subPath}/db2_data.json):true,,,,@db2_data,
-,use_cases/${index}*,,nop,push test db3 data,{},,$HasResource(${subPath}/db3_data.json):true,,,,,@db3_data
-,use_cases/${index}*,rest/runner,send,run REST test, @rest_test,,,,,,,
-[]Tasks,,,Name,Description,Actions,,,,,,,
-,,,clean,stop test services,%Clean,,,,,,,
-[]Clean,,Service,Action,Description,Request,SleepTimeMs,,,,,,
-,,,nop,sleep for easy debuging,{},1000,,,,,,
+Workflow,,,Name,Description,Tasks,,,Init,,
+,,,regression,$app app regresion test,%Tasks,,, @var/init,,
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,prepare,prepare data for test use cases,%Prepare,,,,,
+[]Prepare,,Service,Action,Description,Request,,,,,
+,,workflow,run,set initial data state,@data,,,,,
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,test,Defines test requests,%Test,,,,,
+[]Test{1..002},Subpath,Service,Action,Description,Request,Skip,When,Init,TagDescription,db
+,use_cases/${index}*,,nop,skip this group if skip.txt is present,{},$HasResource(${subPath}/skip.txt):true,, @var/test_init,@use_case.txt,
+,use_cases/${index}*,dsunit,prepare,set initial test $db state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db1
+,use_cases/${index}*,dsunit,prepare,set initial test $db state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db2
+,use_cases/${index}*,dsunit,prepare,set initial test $db state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db3
+,use_cases/${index}*,rest/runner,send,run REST test, @rest_test,,,,,
+,use_cases/${index}*,dsunit,expect,verify test $db state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db1
+,use_cases/${index}*,dsunit,expect,verify test $db state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db2
+,use_cases/${index}*,dsunit,expect,verify test $db state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db3
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,clean,stop test services,%Clean,,,,,
+[]Clean,,Service,Action,Description,Request,SleepTimeMs,,,,
+,,,nop,sleep for easy debuging,{},1000,,,,

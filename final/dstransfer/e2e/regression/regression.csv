@@ -6,7 +6,7 @@ Workflow,,,Name,Description,Tasks,,,Init,,
 ,,,run,init test data,@data.yaml,,,,,
 []Tasks,,,Name,Description,Actions,,,,,
 ,,,test,Defines test requests,%Test,,,,,
-[]Test{1..006},Subpath,Service,Action,Description,Request,Skip,When,Init,TagDescription,db
+[]Test{1..007},Subpath,Service,Action,Description,Request,Skip,When,Init,TagDescription,db
 ,use_cases/${index}*,,nop,skip this group if skip.txt is present,{},$HasResource(${path}/skip.txt):true,, @var/test_init,@use_case.txt,
 ,use_cases/${index}*,dsunit,prepare,set initial db1 state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db1
 ,use_cases/${index}*,dsunit,prepare,set initial db2 state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db2

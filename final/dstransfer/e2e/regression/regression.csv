@@ -1,0 +1,23 @@
+Workflow,,,Name,Description,Tasks,,,Init,,
+,,,regression,$app app regresion test,%Tasks,,, @var/init,,
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,prepare,prepare data for test use cases,%Prepare,,,,,
+[]Prepare,,Service,Action,Description,Request,,,,,
+,,,run,init test data,@data.yaml,,,,,
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,test,Defines test requests,%Test,,,,,
+[]Test{1..006},Subpath,Service,Action,Description,Request,Skip,When,Init,TagDescription,db
+,use_cases/${index}*,,nop,skip this group if skip.txt is present,{},$HasResource(${path}/skip.txt):true,, @var/test_init,@use_case.txt,
+,use_cases/${index}*,dsunit,prepare,set initial db1 state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db1
+,use_cases/${index}*,dsunit,prepare,set initial db2 state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db2
+,use_cases/${index}*,dsunit,prepare,set initial db3 state, @req/prepare,,$HasResource(${path}/prepare/${db}):true,,,db3
+,use_cases/${index}*,rest/runner,send,post trasnfer job, @req/transfer @request,,,,,
+,use_cases/${index}*,rest/runner,send,wait for completion test, @wait,,,,,
+,use_cases/${index}*,,nop,check for errors,{},${send.Response.staus}:/error/,,,,
+,use_cases/${index}*,dsunit,expect,set initial db1 state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db1
+,use_cases/${index}*,dsunit,expect,set initial db2 state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db2
+,use_cases/${index}*,dsunit,expect,set initial db3 state, @req/expect,,$HasResource(${path}/expect/${db}):true,,,db3
+[]Tasks,,,Name,Description,Actions,,,,,
+,,,clean,stop test services,%Clean,,,,,
+[]Clean,,Service,Action,Description,Request,SleepTimeMs,,,,
+,,,nop,sleep for easy debuging,{},1000,,,,

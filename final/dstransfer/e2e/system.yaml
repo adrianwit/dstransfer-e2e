@@ -1,0 +1,33 @@
+tasks: $tasks
+defaults:
+  target: $serviceTarget
+pipeline:
+  destroy:
+    stop-images:
+      action: docker:stop-images
+      images:
+      - aerospike
+      - mysql
+  init:
+    services:
+      aerospike:
+        workflow: service/aerospike
+        name: endly_db1
+        version: latest
+      aerospike-ip:
+        action: docker:inspect
+        name: endly_db1
+        post:
+        - dbIP = $Info[0].NetworkSettings.IPAddress
+        - aerospikeIP = $Info[0].NetworkSettings.IPAddress
+      mysql:
+        workflow: service/mysql
+        name: endly_db3
+        version: "5.7"
+        credentials: $mysqlCredentials
+      mysql-ip:
+        action: docker:inspect
+        name: endly_db3
+        post:
+        - dbIP = $Info[0].NetworkSettings.IPAddress
+        - mysqlIP = $Info[0].NetworkSettings.IPAddress

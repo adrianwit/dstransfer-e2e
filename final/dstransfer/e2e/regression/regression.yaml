@@ -43,10 +43,12 @@ pipeline:
       postJob:
         action: rest/runner:send
         request: '@req/transfer @request'
+        comments: post a transfer job
 
       wait:
         action: rest/runner:send
         request: '@wait'
+        comments: wait for job completion
 
       db1-expect:
         when: '$HasResource(${path}/expect/${db})'

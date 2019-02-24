@@ -1,7 +1,7 @@
 tasks: $tasks
 init:
-- buildPath = /tmp/build/dstransfer/
-- version = 0.1.0
+  buildPath: /tmp/build/dstransfer/
+  version: 0.1.0
 defaults:
   app: dstransfer
   version: 0.1.0

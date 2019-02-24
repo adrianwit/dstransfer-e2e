@@ -1,6 +1,6 @@
 {
   "Method": "get",
-  "URL": "http://localhost:8080//v1/api/task/${send.Response.TaskId}",
+  "URL": "http://localhost:8080//v1/api/task/$AsString(${postJob.Response.TaskId})",
   "Expect": {
     "Status": "done",
     "ReadCount":2,

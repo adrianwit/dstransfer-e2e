@@ -1,6 +1,6 @@
 init:
   app: dstransfer
-  sdk: go:1.9
+  sdk: go:1.11
   appPath: /opt/${app}
   target:
     URL: ssh://127.0.0.1/
@@ -10,7 +10,6 @@ init:
   appTarget: $target
   targetHost: $Hostname($target.URL)
   appHost: $Hostname($appTarget.URL)
-  seleniumServerPort: 8077
   appVersion: 0.1
   bqCredentials: bq
   mysqlCredentials: mysql
@@ -38,7 +37,7 @@ pipeline:
       tasks: '*'
   test:
     action: run
-    name: regression
+    request: '@regression/regression'
     tasks: '*'
   destroy:
     app:

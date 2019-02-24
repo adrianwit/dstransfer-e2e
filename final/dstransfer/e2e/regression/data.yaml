@@ -4,8 +4,9 @@ pipeline:
       target: $target
       action: docker:inspect
       name: endly_db1
+      logging: false
       post:
-      - aerospikeIP = $Info[0].NetworkSettings.IPAddress
+        - aerospikeIP = $Info[0].NetworkSettings.IPAddress
     register:
       action: dsunit:register
       datastore: db1
@@ -42,6 +43,7 @@ pipeline:
       target: $target
       action: docker:inspect
       name: endly_db3
+      logging: false
       post:
       - mysqlIP = $Info[0].NetworkSettings.IPAddress
     register:

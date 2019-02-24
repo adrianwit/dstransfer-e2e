@@ -1,6 +1,6 @@
 {
   "BatchSize": 1,
-  "WriterCount": 1,
+  "WriterThreads": 1,
   "Mode": "insert",
 
   "Source": {

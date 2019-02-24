@@ -1,6 +1,6 @@
 {
   "BatchSize": 128,
-  "WriterCount": 4,
+  "WriterThreads": 4,
   "Mode": "insert",
   "Source": {
     "DriverName": "mysql",

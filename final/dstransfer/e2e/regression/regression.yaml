@@ -26,19 +26,19 @@ pipeline:
         action: dsunit:prepare
         request: '@req/prepare'
         db: db1
-        comments: populate data for use case if data is defined in folder ${path}/prepare/${db}
+        comments: populate data for use case if data is defined in folder prepare/${db}
       db2-prepare:
         when: '$HasResource(${path}/prepare/${db})'
         action: dsunit:prepare
         request: '@req/prepare'
         db: db2
-        comments: populate data for use case if data is defined in folder ${path}/prepare/${db}
+        comments: populate data for use case if data is defined in folder prepare/${db}
       db3-prepare:
         when: '$HasResource(${path}/prepare/${db})'
         action: dsunit:prepare
         request: '@req/prepare'
         db: db3
-        comments: populate data for use case if data is defined in folder ${path}/prepare/${db}
+        comments: populate data for use case if data is defined in folder prepare/${db}
 
       postJob:
         action: rest/runner:send

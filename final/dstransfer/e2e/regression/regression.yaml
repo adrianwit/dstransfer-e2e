@@ -6,7 +6,7 @@ pipeline:
     sharedState: true
 
   test:
-    tag: Test
+    tag: $pathMatch
     description: '@use_case'
     range: 1..007
     subPath: use_cases/${index}_*

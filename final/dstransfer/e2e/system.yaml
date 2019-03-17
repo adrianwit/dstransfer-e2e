@@ -4,16 +4,21 @@ defaults:
 pipeline:
   destroy:
     stop-images:
-      action: docker:stop-images
+      action: docker:stop
       images:
       - aerospike
       - mysql
   init:
+
     services:
+
+
       aerospike:
         workflow: service/aerospike
         name: endly_db1
         version: latest
+
+
       aerospike-ip:
         action: docker:inspect
         logging: false
@@ -21,11 +26,14 @@ pipeline:
         post:
         - dbIP = $Info[0].NetworkSettings.IPAddress
         - aerospikeIP = $Info[0].NetworkSettings.IPAddress
+
       mysql:
         workflow: service/mysql
         name: endly_db3
         version: "5.7"
         credentials: $mysqlCredentials
+
+
       mysql-ip:
         action: docker:inspect
         logging: false

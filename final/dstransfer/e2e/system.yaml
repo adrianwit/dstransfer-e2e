@@ -1,6 +1,6 @@
 tasks: $tasks
-defaults:
-  target: $serviceTarget
+init:
+  db3Secrets: ${secrets.$mysqlCredentials}
 pipeline:
   destroy:
     stop-images:
@@ -14,10 +14,15 @@ pipeline:
 
 
       aerospike:
-        workflow: service/aerospike
+        action: docker:run
+        image: 'aerospike/aerospike-server:3.16.0.6'
         name: endly_db1
-        version: latest
-
+        ports:
+          3000: 3000
+          3001: 3001
+          3002: 3002
+          3003: 3003
+          8081: 8081
 
       aerospike-ip:
         action: docker:inspect
@@ -28,11 +33,13 @@ pipeline:
         - aerospikeIP = $Info[0].NetworkSettings.IPAddress
 
       mysql:
-        workflow: service/mysql
+        action: docker:run
+        image: mysql:5.7
         name: endly_db3
-        version: "5.7"
-        credentials: $mysqlCredentials
-
+        ports:
+          3306: 3306
+        env:
+          MYSQL_ROOT_PASSWORD: ${db3Secrets.Password}
 
       mysql-ip:
         action: docker:inspect
